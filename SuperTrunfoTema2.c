@@ -16,7 +16,7 @@ int main()
     printf("Digite o código da carta (ex: A01, B03):\n");
     scanf(" %s", codigocarta1);
     printf("Digite o nome da cidade:\n");
-    scanf(" %s", nomecidade1);
+    scanf(" %[^\n]s", nomecidade1);
     printf("Digite a população:\n");
     scanf("%lu", &populacao1);
     printf("Digite a área (km²):\n");
@@ -25,7 +25,7 @@ int main()
     scanf("%f", &pib1);
     printf("Digite a quantidade de pontos turísticos:\n");
     scanf("%d", &pontosturisticos1);
-    
+
     densidadepopulacional1 = ((float)populacao1 / area1);
     pibpercapita1 = (pib1 / (float)populacao1);
 
@@ -36,7 +36,7 @@ int main()
     printf("Digite o código da carta (ex: A01, B03):\n");
     scanf(" %s", codigocarta2);
     printf("Digite o nome da cidade:\n");
-    scanf(" %s", nomecidade2);
+    scanf(" %[^\n]s", nomecidade2);
     printf("Digite a população:\n");
     scanf("%lu", &populacao2);
     printf("Digite a área (km²):\n");
@@ -45,39 +45,49 @@ int main()
     scanf("%f", &pib2);
     printf("Digite a quantidade de pontos turísticos:\n");
     scanf("%d", &pontosturisticos2);
-    
+
     densidadepopulacional2 = ((float)populacao2 / area2);
     pibpercapita2 = (pib2 / (float)populacao2);
 
-    // Exibição dos dados das cartas
     printf("\nCarta 1: %s\n", nomecidade1);
     printf("Carta 2: %s\n", nomecidade2);
-    
-    int atributo1, atributo2;
-    do {
-        printf("\nEscolha dois atributos para comparar:\n");
-        printf("1. População\n2. Área\n3. PIB\n4. Densidade Demográfica (menor valor vence)\n5. Pontos Turísticos\n");
-        scanf("%d %d", &atributo1, &atributo2);
-        if (atributo1 == atributo2 || atributo1 < 1 || atributo1 > 5 || atributo2 < 1 || atributo2 > 5)
-            printf("Erro: Escolha dois atributos diferentes entre 1 e 5!\n");
-    } while (atributo1 == atributo2 || atributo1 < 1 || atributo1 > 5 || atributo2 < 1 || atributo2 > 5);
-    
-    float valores1[] = {populacao1, area1, pib1, densidadepopulacional1, pontosturisticos1};
-    float valores2[] = {populacao2, area2, pib2, densidadepopulacional2, pontosturisticos2};
-    
-    float soma1 = valores1[atributo1 - 1] + valores1[atributo2 - 1];
-    float soma2 = valores2[atributo1 - 1] + valores2[atributo2 - 1];
-    
-    printf("\nResultado:\n");
-    printf("%s: %.2f + %.2f = %.2f\n", nomecidade1, valores1[atributo1 - 1], valores1[atributo2 - 1], soma1);
-    printf("%s: %.2f + %.2f = %.2f\n", nomecidade2, valores2[atributo1 - 1], valores2[atributo2 - 1], soma2);
-    
-    if (soma1 > soma2)
-        printf("%s venceu!\n", nomecidade1);
-    else if (soma2 > soma1)
-        printf("%s venceu!\n", nomecidade2);
-    else
-        printf("Empate!\n");
-    
+
+    int atributo1, atributo2, sair;
+    do
+    {
+        do
+        {
+            printf("\nEscolha dois atributos para comparar:\n");
+            printf("1. População\n2. Área\n3. PIB\n4. Densidade Demográfica (menor valor vence)\n5. Pontos Turísticos\n");
+            scanf("%d %d", &atributo1, &atributo2);
+            if (atributo1 == atributo2 || atributo1 < 1 || atributo1 > 5 || atributo2 < 1 || atributo2 > 5)
+                printf("Erro: Escolha dois atributos diferentes entre 1 e 5!\n");
+        } while (atributo1 == atributo2 || atributo1 < 1 || atributo1 > 5 || atributo2 < 1 || atributo2 > 5);
+
+        float valores1[] = {populacao1, area1, pib1, densidadepopulacional1, pontosturisticos1};
+        float valores2[] = {populacao2, area2, pib2, densidadepopulacional2, pontosturisticos2};
+
+        float soma1 = valores1[atributo1 - 1] + valores1[atributo2 - 1];
+        float soma2 = valores2[atributo1 - 1] + valores2[atributo2 - 1];
+
+        if (atributo1 == 4) soma1 -= 2 * valores1[3]; 
+        if (atributo2 == 4) soma2 -= 2 * valores2[3];
+
+        printf("\nResultado:\n");
+        printf("%s: %.2f + %.2f = %.2f\n", nomecidade1, valores1[atributo1 - 1], valores1[atributo2 - 1], soma1);
+        printf("%s: %.2f + %.2f = %.2f\n", nomecidade2, valores2[atributo1 - 1], valores2[atributo2 - 1], soma2);
+
+        if (soma1 > soma2)
+            printf("%s venceu!\n", nomecidade1);
+        else if (soma2 > soma1)
+            printf("%s venceu!\n", nomecidade2);
+        else
+            printf("Empate!\n");
+
+        printf("Deseja continuar jogando? 1 - continuar \t 2 - sair\n");
+        scanf("%d", &sair);
+
+    } while (sair == 1);
+
     return 0;
 }
